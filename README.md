@@ -1,6 +1,6 @@
 # AVIX Assets
 
-> ![Important]
+> [!IMPORTANT]
 > This repository contains proprietary assets which are not within AVIX's ownership
 
 ## Disclaimer
