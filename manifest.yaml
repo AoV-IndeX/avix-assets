@@ -1,0 +1,10 @@
+version: 0.1.0
+
+release:
+  date: 2026-08-26
+  time: 2026-08-26T17:53:33Z
+
+content:
+  source: Garena AoV Taiwan Test Server
+  revision: "2026-08-26"
+  reference: https://exp.moba.garena.tw/show/4044
