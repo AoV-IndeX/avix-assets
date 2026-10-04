@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Package assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION="${GITHUB_REF_NAME#v}"
+          RELEASE_DIR="release"
+
+          mkdir -p "$RELEASE_DIR"
+
+          package_all() {
+            local root="avix-assets-v${VERSION}-all"
+
+            mkdir -p "$RELEASE_DIR/$root"
+
+            cp manifest.yaml README.md "$RELEASE_DIR/$root/"
+
+            for domain in arcanas enchantments equipments heroes talents; do
+              cp -r "$domain" "$RELEASE_DIR/$root/"
+            done
+
+            (
+              cd "$RELEASE_DIR"
+              zip -qr "${root}.zip" "$root"
+            )
+          }
+
+          package_domain() {
+            local domain="$1"
+            local root="avix-assets-v${VERSION}-${domain}"
+
+            mkdir -p "$RELEASE_DIR/$root"
+
+            cp manifest.yaml README.md "$RELEASE_DIR/$root/"
+            cp -r "$domain" "$RELEASE_DIR/$root/"
+
+            (
+              cd "$RELEASE_DIR"
+              zip -qr "${root}.zip" "$root"
+            )
+          }
+
+          package_all
+
+          for domain in arcanas enchantments equipments heroes talents; do
+            package_domain "$domain"
+          done
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          TAG="${GITHUB_REF_NAME}"
+
+          gh release create "$TAG" \
+            --verify-tag \
+            --title "$TAG" \
+            --generate-notes \
+            release/*.zip
+
+      - name: Append manifest to release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          TAG="${GITHUB_REF_NAME}"
+          NOTES_FILE="$(mktemp)"
+
+          gh release view "$TAG" \
+            --json body \
+            --jq '.body' > "$NOTES_FILE"
+
+          {
+            cat "$NOTES_FILE"
+            printf '\n\n---\n\n'
+            cat manifest.yaml
+          } > "${NOTES_FILE}.final"
+
+          gh release edit "$TAG" \
+            --notes-file "${NOTES_FILE}.final"
