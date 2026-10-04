@@ -1,10 +1,10 @@
-version: 0.1.0
+version: 0.1.1
 
 release:
-  date: 2026-08-26
-  time: 2026-08-26T17:53:33Z
+  date: 2026-10-04
+  time: 2026-10-04T20:58:41Z
 
 content:
-  source: Garena AoV Taiwan Test Server
-  revision: "2026-08-26"
-  reference: https://exp.moba.garena.tw/show/4044
+  source: Garena AoV Vietnam Official Server
+  revision: "2026-09-29"
+  reference: https://lienquan.garena.vn/chi-tiet-ban-cap-nhat-vet-nut-thoi-khong-29-09-2026/, https://main.aov.garena.co.id/post/patch-notes18sep26-en
