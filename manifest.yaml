@@ -1,10 +1,10 @@
-version: 0.1.1
+version: 0.1.2
 
 release:
-  date: 2026-10-04
-  time: 2026-10-04T20:58:41Z
+  date: 2026-10-18
+  time: 2026-10-18T14:36:25Z
 
 content:
   source: Garena AoV Vietnam Official Server
-  revision: "2026-09-29"
-  reference: https://lienquan.garena.vn/chi-tiet-ban-cap-nhat-vet-nut-thoi-khong-29-09-2026/, https://main.aov.garena.co.id/post/patch-notes18sep26-en
+  revision: "2026-09-29 (old revision, update asset only)"
+  reference: https://lienquan.garena.vn/hoc-vien/tuong-skin/d/evita/
